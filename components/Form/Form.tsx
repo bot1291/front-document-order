@@ -6,27 +6,50 @@ import { Button } from '../Button/Button';
 import { useForm } from 'react-hook-form';
 import { IForm } from './Form.interface';
 import { useState } from 'react';
+import { IEmployee } from '../../interfaces/employee';
 
 export const Form = ({
 	employees,
 	className,
 	...props
 }: FormProps): JSX.Element => {
-	const { register, handleSubmit } = useForm<IForm>();
+	const { register, handleSubmit, reset } = useForm<IForm>();
 	const [isFailed, setIsFailed] = useState<string>('');
-	const [isSuccess, setIiSuccess] = useState<boolean>(false);
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-	const onSubmit = (formData: IForm) => {
-		const currentEmployee = employees.find((e) => e.name === formData.name);
-		const checkForCopy = currentEmployee?.documents.find(
-			(d) => d.document === formData.document
-		);
-		if (checkForCopy) {
-			setIsFailed('Запрос на документ уже был послан');
-			setIiSuccess(false);
-		} else {
+	const onSubmit = async (formData: IForm) => {
+		try {
+			const currentEmployee = employees.find(
+				(e) => e.name === formData.name
+			);
+
+			const employee: IEmployee | string = await fetch(
+				'http://localhost:5000/api/employees',
+				{
+					method: 'PUT',
+					body: JSON.stringify({
+						...formData,
+						_id: currentEmployee?._id,
+					}),
+					headers: {
+						'Content-type': 'application/json; charset=UTF-8',
+					},
+				}
+			).then((response) => response.json());
+			if (typeof employee === 'string') {
+				setIsFailed(employee);
+				setIsSuccess(false);
+				reset();
+				return;
+			}
 			setIsFailed('');
-			setIiSuccess(true);
+			setIsSuccess(true);
+			console.log(employee);
+		} catch (error) {
+			if (error instanceof Error) {
+				setIsFailed('Произошла ошибка, перезагрузите страницу');
+				console.log(error.message);
+			}
 		}
 	};
 
@@ -43,13 +66,15 @@ export const Form = ({
 				/>
 				<DropMenu
 					{...register('name')}
-					defaultText="Выберите имя сотрудника"
+					defaultText="ФИО конструктора"
 					employees={employees}
 				/>
 				<Button>Добавить документ</Button>
 			</form>
 			{isFailed && <div className={styles.failed}>{isFailed}</div>}
-			{isSuccess && <div className={styles.success}>Запрос успешно отправлен</div>}
+			{isSuccess && (
+				<div className={styles.success}>Запрос успешно отправлен</div>
+			)}
 		</>
 	);
 };

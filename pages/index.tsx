@@ -1,35 +1,10 @@
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { Button, Form } from '../components';
 import { IEmployee } from '../interfaces/employee';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
-	const employees: IEmployee[] = [
-		{
-			_id: '123',
-			name: 'one',
-			documents: [
-				{ document: 'maslo', _id: '1' },
-				{ document: '1', _id: '1' },
-			],
-		},
-		{
-			_id: '321',
-			name: 'two',
-			documents: [
-				{ document: '1', _id: '1' },
-				{ document: '1', _id: '1' },
-			],
-		},
-		{
-			_id: '222',
-			name: 'three',
-			documents: [
-				{ document: '1', _id: '1' },
-				{ document: '1', _id: '1' },
-			],
-		},
-	];
+export default function Home({ employees }: HomeProps) {
 	return (
 		<div className={styles.home}>
 			<Form employees={employees} />
@@ -38,4 +13,27 @@ export default function Home() {
 			</Link>
 		</div>
 	);
+}
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+	const employees: IEmployee[] = await fetch(
+		'http://localhost:5000/api/employees',
+		{
+			method: 'GET',
+			credentials: 'include',
+		}
+	)
+		.then((response) => response.json())
+		.catch((e: Error) => {
+			console.log(e.message);
+		});
+	return {
+		props: {
+			employees,
+		},
+	};
+};
+
+export interface HomeProps extends Record<string, unknown> {
+	employees: IEmployee[];
 }
