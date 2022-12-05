@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
- export interface TableDocumentsProps
+ export interface InputProps
 		extends DetailedHTMLProps<
 			HTMLAttributes<HTMLInputElement>,
 			HTMLInputElement
