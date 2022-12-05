@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { Button, DropMenu, Form, Input } from '../components';
+import { Button, Form } from '../components';
 import { IEmployee } from '../interfaces/employee';
 import styles from '../styles/Home.module.css';
 
@@ -10,7 +9,7 @@ export default function Home() {
 			_id: '123',
 			name: 'one',
 			documents: [
-				{ document: '1', _id: '1' },
+				{ document: 'maslo', _id: '1' },
 				{ document: '1', _id: '1' },
 			],
 		},

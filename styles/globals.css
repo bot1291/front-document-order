@@ -22,4 +22,6 @@ a {
 :root {
 	--textColor: #3b434e;
 	--primary: rgb(65, 41, 41);
+	--error: rgba(255, 0, 0, 0.795);
+	--success: rgb(22, 202, 118);
 }
