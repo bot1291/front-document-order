@@ -1,0 +1,10 @@
+.button {
+	outline-color: var(--primary);
+	padding: 10px 15px;
+	border-radius: 5px;
+	color: var(--primary);
+}
+
+.button::placeholder {
+	color: var(--textColor);
+}

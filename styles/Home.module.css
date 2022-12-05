@@ -3,4 +3,16 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	gap: 10px;
+	flex-direction: column;
+}
+
+.button {
+	margin-top: 15px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
