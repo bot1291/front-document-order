@@ -1,10 +1,10 @@
-.input {
+.select {
 	outline-color: var(--primary);
 	padding: 10px 15px;
 	border-radius: 5px;
 	color: var(--primary);
 }
 
-.input::placeholder {
+.select::placeholder {
 	color: var(--textColor);
 }
