@@ -1,0 +1,19 @@
+.table {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	flex-direction: column;
+	margin-top: 50px;
+}
+
+.button {
+	margin-top: 15px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}

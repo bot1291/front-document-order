@@ -1,9 +1,9 @@
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Button, Form } from '../components';
+import { Button, TableDocuments } from '../components';
 import { IEmployee } from '../interfaces/employee';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Table.module.css';
 
 export default function Table({ employees }: TableProps) {
 	const [allDocuments, setAllDocuments] = useState<IDocument[]>([]);
@@ -28,11 +28,13 @@ export default function Table({ employees }: TableProps) {
 				document: key,
 			});
 		}
+		arrayOfDocumentsAndCount.sort((a, b) => (a.count < b.count ? 1 : -1));
 		setAllDocuments(arrayOfDocumentsAndCount);
 	}, []);
 
 	return (
-		<div className={styles.home}>
+		<div className={styles.table}>
+			<TableDocuments allDocuments={allDocuments} />
 			<Link href="/">
 				<Button className={styles.button}>Перейти к форме</Button>
 			</Link>
