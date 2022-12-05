@@ -6,7 +6,7 @@ import { Button } from '../Button/Button';
 
 export const Form = ({ employees, className, ...props }: FormProps): JSX.Element => {
 	return (
-		<form className={styles.form}>
+		<form className={`${className} ${styles.form}`} {...props}>
 			<Input placeholder="Наименование документа" />
 			<DropMenu
 				defaultText="Выберите имя сотрудника"

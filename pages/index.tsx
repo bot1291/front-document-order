@@ -1,12 +1,10 @@
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { Button, DropMenu, Input } from '../components';
+import { Button, DropMenu, Form, Input } from '../components';
 import { IEmployee } from '../interfaces/employee';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
-	const {} = useForm<>();
-
 	const employees: IEmployee[] = [
 		{
 			_id: '123',
@@ -35,14 +33,7 @@ export default function Home() {
 	];
 	return (
 		<div className={styles.home}>
-			<form className={styles.form}>
-				<Input placeholder="Наименование документа" />
-				<DropMenu
-					defaultText="Выберите имя сотрудника"
-					employees={employees}
-				/>
-				<Button>Добавить документ</Button>
-			</form>
+			<Form employees={employees} />
 			<Link href="/table">
 				<Button className={styles.button}>Перейти к таблице</Button>
 			</Link>

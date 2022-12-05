@@ -1,10 +1,5 @@
-.input {
-	outline-color: var(--primary);
-	padding: 10px 15px;
-	border-radius: 5px;
-	color: var(--primary);
-}
-
-.input::placeholder {
-	color: var(--textColor);
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
