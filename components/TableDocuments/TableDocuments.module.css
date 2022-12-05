@@ -34,3 +34,9 @@
 .title {
 	text-align: center;
 }
+
+.titleDocument,
+.countDocument {
+	font-weight: 600;
+	color: var(--dark-red);
+}
