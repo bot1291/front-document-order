@@ -16,22 +16,34 @@ export default function Home({ employees }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-	const employees: IEmployee[] = await fetch(
-		'http://localhost:5000/api/employees',
-		{
-			method: 'GET',
-			credentials: 'include',
+	try {
+		const employees: IEmployee[] = await fetch(
+			'http://localhost:5000/api/employees',
+			{
+				method: 'GET',
+				credentials: 'include',
+			}
+		)
+			.then((response) => response.json())
+			.catch((e: Error) => {
+				console.log(e.message);
+			});
+		if (!employees) {
+			return {
+				notFound: true,
+			};
 		}
-	)
-		.then((response) => response.json())
-		.catch((e: Error) => {
-			console.log(e.message);
-		});
-	return {
-		props: {
-			employees,
-		},
-	};
+
+		return {
+			props: {
+				employees,
+			},
+		};
+	} catch {
+		return {
+			notFound: true,
+		};
+	}
 };
 
 export interface HomeProps extends Record<string, unknown> {

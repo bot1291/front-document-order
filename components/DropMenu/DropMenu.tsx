@@ -22,7 +22,7 @@ export const DropMenu = forwardRef(
 				<option value="-1" disabled>
 					{defaultText}
 				</option>
-				{employees.map((e) => (
+				{employees && employees.map((e) => (
 					<option value={e.name} key={e._id}>
 						{e.name}
 					</option>
