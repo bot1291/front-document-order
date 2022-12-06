@@ -5,12 +5,31 @@ import { Button, TableDocuments } from '../components';
 import { IEmployee } from '../interfaces/employee';
 import styles from '../styles/Table.module.css';
 
-export default function Table({ employees }: TableProps) {
+export default function Table() {
 	const [allDocuments, setAllDocuments] = useState<IDocument[]>([]);
+	const [fetchEmployees, setFetchEmployees] = useState<IEmployee[]>([]);
+
 
 	useEffect(() => {
+		async function fetchData() {
+			try {
+				const employees: IEmployee[] = await fetch(
+					'http://localhost:5000/api/employees',
+					{
+						method: 'GET',
+					}
+				).then((response) => response.json());
+				setFetchEmployees(employees);
+			} catch (error) {
+				if (error instanceof Error) {
+					console.log(error);
+				}
+			}
+		}
+		fetchData();
+
 		const allDocuments: string[] = [];
-		employees.map((e) => allDocuments.push(...e.documents));
+		fetchEmployees.map((e) => allDocuments.push(...e.documents));
 		const objectCountDocuments = allDocuments.reduce(
 			(object: { [key: string]: number }, currentDocument) => {
 				if (!object[currentDocument]) {
@@ -30,7 +49,7 @@ export default function Table({ employees }: TableProps) {
 		}
 		arrayOfDocumentsAndCount.sort((a, b) => (a.count < b.count ? 1 : -1));
 		setAllDocuments(arrayOfDocumentsAndCount);
-	}, []);
+	}, [fetchEmployees]);
 
 	return (
 		<div className={styles.table}>
@@ -42,37 +61,37 @@ export default function Table({ employees }: TableProps) {
 	);
 }
 
-export const getStaticProps: GetStaticProps<TableProps> = async () => {
-	try {
-		const employees: IEmployee[] = await fetch(
-			'http://localhost:5000/api/employees',
-			{
-				method: 'GET',
-				credentials: 'include',
-			}
-		)
-			.then((response) => response.json())
-			.catch((e: Error) => {
-				console.log(e.message);
-			});
+// export const getStaticProps: GetStaticProps<TableProps> = async () => {
+// 	try {
+// 		const employees: IEmployee[] = await fetch(
+// 			'http://localhost:5000/api/employees',
+// 			{
+// 				method: 'GET',
+// 				credentials: 'include',
+// 			}
+// 		)
+// 			.then((response) => response.json())
+// 			.catch((e: Error) => {
+// 				console.log(e.message);
+// 			});
 
-		if (!employees) {
-			return {
-				notFound: true,
-			};
-		}
+// 		if (!employees) {
+// 			return {
+// 				notFound: true,
+// 			};
+// 		}
 
-		return {
-			props: {
-				employees,
-			},
-		};
-	} catch {
-		return {
-			notFound: true,
-		};
-	}
-};
+// 		return {
+// 			props: {
+// 				employees,
+// 			},
+// 		};
+// 	} catch {
+// 		return {
+// 			notFound: true,
+// 		};
+// 	}
+// };
 
 export interface TableProps extends Record<string, unknown> {
 	employees: IEmployee[];
